@@ -106,6 +106,7 @@ const ResponsiveAppBar = () => {
                                     <NavLink to='services'><MenuItem onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
                                     <NavLink to='menu'><MenuItem onClick={handleCloseNavMenu}>Menu</MenuItem></NavLink>
                                     <NavLink to='/'><MenuItem onClick={handleCloseNavMenu}>Home</MenuItem></NavLink>
+                                    <NavLink to='/signup'><MenuItem onClick={handleCloseNavMenu}>Sign Up</MenuItem></NavLink>
                                 </Stack>
                             </Menu>
                         </Box>
@@ -147,6 +148,10 @@ const ResponsiveAppBar = () => {
 
                             <NavLink to='/'>
                                 <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Home</Button>
+                            </NavLink>
+                            
+                            <NavLink to='/signup'>
+                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Sign Up</Button>
                             </NavLink>
                         </Stack>
 
