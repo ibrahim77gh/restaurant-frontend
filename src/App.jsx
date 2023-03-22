@@ -15,7 +15,9 @@ const router = createBrowserRouter(
       <Route path='cart' element={<Cart_Page/>}></Route>
       <Route path='signup' element={<SignUp/>}></Route>
     </Route>
-  )
+  ), {
+    basename: "/restaurant-frontend"
+  }
 )
 
 const App = () => {
