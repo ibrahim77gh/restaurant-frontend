@@ -131,27 +131,27 @@ const ResponsiveAppBar = () => {
                         </Typography>
                         <Stack direction='row-reverse' spacing={2} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             <NavLink>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Contact</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Contact</Button>
                             </NavLink>
 
                             <NavLink>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>About</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>About Us</Button>
                             </NavLink>
 
                             <NavLink to='services'>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Services</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Services</Button>
                             </NavLink>
 
                             <NavLink to='menu'>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Menu</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Menu</Button>
                             </NavLink>
 
                             <NavLink to='/'>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Home</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Home</Button>
                             </NavLink>
                             
                             <NavLink to='/signup'>
-                                <Button color='warning' size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>Sign Up</Button>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Sign Up</Button>
                             </NavLink>
                         </Stack>
 
