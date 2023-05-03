@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Typography, Box, Card, CardActions, CardContent, CardMedia, Button } from '@mui/material'
-import constants from '../constants'
+// import constants from '../constants'
+import UserService from '../services/user.service';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -31,8 +32,23 @@ function a11yProps(index) {
   }
   
 function FoodItem(item){
+  const [id, setId] = useState(null)
+  
+  useEffect(() => {
+    setId(item.id)
+  }, [item])
+
+  async function handleClick(){
+    try{
+      const response = await UserService.addToCart(id)
+      console.log(response.data)
+    }catch(e){
+        throw e
+    }
+  }
+
     return (
-        <Card sx={{ maxWidth: 400, bgcolor: 'inherit' }} variant='outlined'>
+        <Card sx={{ bgcolor: 'warning.main' }} variant='outlined'>
           <CardMedia
             sx={{ height: 300}}
             image={item.image}
@@ -43,14 +59,14 @@ function FoodItem(item){
               {item.title}
             </Typography>
             <Typography variant="body2" gutterBottom>
-              {constants.productText}
+              {item.description}
             </Typography>
             <Typography variant='h5' >
-                $2.90
+                {item.unit_price}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="large" sx={{color:'warning.main'}}>Add to Cart</Button>
+          <CardActions onClick={() => handleClick()}>
+            <Button size="large" variant='contained' sx={{ color: 'warning.main', backgroundColor:'black' }}>Add to Cart</Button>
           </CardActions>
         </Card>
       );

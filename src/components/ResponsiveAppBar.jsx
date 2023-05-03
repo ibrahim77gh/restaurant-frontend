@@ -7,11 +7,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import constants from '../constants';
 
 import {NavLink, Outlet} from 'react-router-dom';
+import AuthService from '../services/auth.service';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+    const user = localStorage.getItem('username')
     const [color, setColor] = useState('rgba(0,0,0,0.1)');
 
     useEffect(() => {
@@ -46,6 +48,11 @@ const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    function logout(){
+        AuthService.logout()
+        handleCloseNavMenu()
+    }
 
     return (
         <>
@@ -101,6 +108,10 @@ const ResponsiveAppBar = () => {
                             }}
                             >
                                 <Stack direction='column-reverse'>
+                                    {user ?
+                                    (<NavLink to='/'><MenuItem onClick={logout}>Log out</MenuItem></NavLink>) : 
+                                    (<NavLink to='/login'><MenuItem onClick={handleCloseNavMenu}>Log in</MenuItem></NavLink>)}
+
                                     <NavLink><MenuItem onClick={handleCloseNavMenu}>Contact</MenuItem></NavLink>
                                     <NavLink><MenuItem onClick={handleCloseNavMenu}>About</MenuItem></NavLink>
                                     <NavLink to='services'><MenuItem onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
@@ -130,6 +141,14 @@ const ResponsiveAppBar = () => {
                             Restaurant
                         </Typography>
                         <Stack direction='row-reverse' spacing={2} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {user ? 
+                            (<NavLink to='/'>
+                                <Button size='large' onClick={logout} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Log out</Button>
+                            </NavLink>) : 
+                            (<NavLink to='login'>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Log in</Button>
+                            </NavLink>)}
+
                             <NavLink>
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Contact</Button>
                             </NavLink>
@@ -150,9 +169,6 @@ const ResponsiveAppBar = () => {
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Home</Button>
                             </NavLink>
                             
-                            <NavLink to='/signup'>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Sign Up</Button>
-                            </NavLink>
                         </Stack>
 
                         <Box sx={{ flexGrow: 0 }}>

@@ -1,16 +1,33 @@
 import {Stack} from '@mui/material'
-import {React} from 'react'
-import { ResponsiveAppBar, Hero_Menu, CartContent, Footer, Total } from '../components'
+import {React, useEffect, useState} from 'react'
+import { Hero_Menu, CartContent, Footer, Total } from '../components'
+import UserService from '../services/user.service'
+import { useLoaderData, useLocation } from 'react-router-dom'
+
+async function cartLoader(){
+  try{
+    const response = await UserService.getCart()
+    if (response.data.items.length == 0){
+      return "You haven`t added any items in your cart yet"
+    }else{
+      return response.data
+    }
+  }
+  catch (error){
+    throw error
+  }
+}
 
 const Cart_Page = () => {
+  const cart = useLoaderData()
+
   return (
     <Stack>
         <Hero_Menu t='CART' b='CART'/>
-        <CartContent/>
+        <CartContent cart={cart}/>
         <Footer/>
-        <Total/>
     </Stack>
   )
 }
 
-export default Cart_Page
+export {Cart_Page, cartLoader}
