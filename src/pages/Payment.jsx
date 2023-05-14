@@ -23,7 +23,7 @@ function Copyright(props) {
 }
 
 
-export default function Checkout(){
+export default function Payment(){
     const navigate = useNavigate()
     function handleSubmit(event){
         const successMessage = "Order Placed!";
@@ -115,7 +115,7 @@ export default function Checkout(){
   );
 }
 
-export const checkoutAction = async ({request}) => {
+export const paymentAction = async ({request}) => {
     const data = await request.formData()
     const submission = {
         name: data.get('name'),

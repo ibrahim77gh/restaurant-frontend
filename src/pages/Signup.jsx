@@ -5,7 +5,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 import { Form, redirect, useActionData, NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import AuthService from "../services/auth.service";
 
 
@@ -26,9 +25,20 @@ function Copyright(props) {
 export default function Signup(){
     const data = useActionData()
     const navigate = useNavigate()
-    function handleSubmit(event){
-        const successMessage = "You've successfully signed up!";
-        navigate('/login', { state: { successMessage } });
+
+    async function continueWithGoogle(){
+        try{
+            const response = await AuthService.continueWithGoogle()
+            const urlParams = new URLSearchParams(response.data.authorization_url);
+            const state = urlParams.get("state");
+            const code = urlParams.get("code");
+            if (state){
+                const response_two = await AuthService.googleAuthenticate({state:state, code:code})
+            }
+            
+        }catch(error){
+            throw error
+        }
     }
     
   return (
@@ -47,7 +57,7 @@ export default function Signup(){
             <Typography component="h1" variant="h5">
                 Sign up
             </Typography>
-            <Form method='post' onSubmit={handleSubmit}>
+            <Form method='post' >
                 <Box sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -74,16 +84,6 @@ export default function Signup(){
                         <TextField
                         required
                         fullWidth
-                        id="username"
-                        label="Username"
-                        name="username"
-                        autoComplete="username"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                        required
-                        fullWidth
                         id="email"
                         label="Email Address"
                         name="email"
@@ -104,6 +104,17 @@ export default function Signup(){
                     <Grid item xs={12}>
                         <TextField
                         required
+                        fullWidth
+                        name="re_password"
+                        label="Confirm Password"
+                        type="password"
+                        id="re_password"
+                        autoComplete="new-password"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        required
                         select
                         fullWidth
                         name="location"
@@ -117,20 +128,23 @@ export default function Signup(){
                             <MenuItem key='Malir Cantt' value='Malir Cantt'>Malir Cantt</MenuItem>
                         </TextField>
                     </Grid>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                        control={<Checkbox value="allowExtraEmails" color="primary" />}
-                        label="I want to receive inspiration, marketing promotions and updates via email."
-                        />
-                    </Grid>
                     </Grid>
                     <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 2, bgcolor:'warning.dark' }}
                     >
                         Sign Up
+                    </Button>
+                    <Typography fullWidth variant='h6' textAlign='center'>OR</Typography>
+                    <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, bgcolor:'red' }}
+                    onClick={continueWithGoogle}
+                    >
+                        Continue with Google
                     </Button>
                     <Grid container justifyContent="flex-end">
                     <Grid item>
@@ -154,9 +168,9 @@ export const signupAction = async ({request}) => {
     const submission = {
         first_name: data.get('first-name'),
         last_name: data.get('last-name'),
-        username: data.get('username'),
         email: data.get('email'),
         password: data.get('password'),
+        re_password: data.get('re_password'),
     }
     console.log(submission);
     

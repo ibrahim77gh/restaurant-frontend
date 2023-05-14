@@ -13,7 +13,7 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
-    const user = localStorage.getItem('username')
+    const user = localStorage.getItem('access_token')
     const [color, setColor] = useState('rgba(0,0,0,0.1)');
 
     useEffect(() => {

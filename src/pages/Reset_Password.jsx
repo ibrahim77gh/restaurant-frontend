@@ -28,14 +28,15 @@ export default function Login(){
     const data = useActionData()
 
     // Toast
-    // const location = useLocation();
-    // const [open, setOpen] = useState(false)
-    // const successMessage = location.state?.successMessage;
-    // useEffect(() => {
-    //     if (successMessage) {
-    //         setOpen(true)
-    //     }
-    // }, [successMessage]);
+    const location = useLocation();
+    const successMessage = location.state?.successMessage;
+    const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        if (successMessage) {
+            setOpen(true)
+        }
+    }, [successMessage]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -61,7 +62,7 @@ export default function Login(){
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Log in
+                Reset Password
             </Typography>
             <Form method='post'>
                 <Box sx={{ mt: 3 }}>
@@ -76,17 +77,6 @@ export default function Login(){
                         autoComplete="email"
                         />
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="new-password"
-                        />
-                    </Grid>
                     </Grid>
                     <Button
                     type="submit"
@@ -94,19 +84,14 @@ export default function Login(){
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     >
-                        Log in
+                        Reset Password
                     </Button>
-                    <Grid container justifyContent="center" alignItems='center' spacing={2}>
-                    <Grid item xs={12}>
-                        <NavLink to='/signup'>
-                            Don`t have an account yet? Sign up
-                        </NavLink>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <NavLink to='/reset-password'>
-                            Forgot Password?
-                        </NavLink>
-                    </Grid>
+                    <Grid container justifyContent="flex-start">
+                      <Grid item>
+                          <NavLink to='/login'>
+                              Back to Login
+                          </NavLink>
+                      </Grid>
                     </Grid>
                     {data && data.error && <p>{data.error}</p>}
                 </Box>
@@ -114,29 +99,22 @@ export default function Login(){
             </Box>
             <Copyright sx={{ mt: 5 }} />
         </Container>
-
-        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert variant="filled" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                Account created succesfully!
-            </Alert>
-        </Snackbar> */}
     </Box>
 
     
     );
 }
 
-export const loginAction = async ({request}) => {
+export const resetPasswordAction = async ({request}) => {
     const data = await request.formData()
     const submission = {
         email: data.get('email'),
-        password: data.get('password'),
     }
     // error handling
     try{
-        const response = await AuthService.login(submission)
+        const response = await AuthService.resetPassword(submission)
         console.log(response.data)
-        return redirect('/');
+        return redirect('/login');
     }catch(e){
         throw e
     }

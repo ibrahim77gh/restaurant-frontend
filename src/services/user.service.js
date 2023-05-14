@@ -54,8 +54,8 @@ class UserService {
   }
 
   checkout(){
-    const access_token = localStorage.getItem('access_token')
     const cart_id = localStorage.getItem("cart")
+    let access_token = localStorage.getItem('access_token')
 
     const axios_instance = axios.create({
       baseURL: API_URL + 'orders/',
@@ -71,10 +71,10 @@ class UserService {
         const response = await AuthService.refresh()
         if (typeof response === 'string'){
           console.log('User Inactive for too long')
-          return req
+          throw new Error('User inactive for too long');
         }else{
           console.log('Token Refresh Successful')
-          req.headers.Authorization = authHeader()
+          req.headers.Authorization = authHeader();
           return req
         }
       }

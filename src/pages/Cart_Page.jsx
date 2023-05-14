@@ -7,9 +7,13 @@ import { useLoaderData, useLocation } from 'react-router-dom'
 async function cartLoader(){
   try{
     const response = await UserService.getCart()
-    if (response.data.items.length == 0){
+    if (typeof response === 'string'){
+      return response
+    }
+    else if (response.data.items.length == 0){
       return "You haven`t added any items in your cart yet"
-    }else{
+    }
+    else{
       return response.data
     }
   }

@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import CartItem from './CartItem'
 import { burger, tikka, rice, juices, soda, shakes, cinnamon, cake, pudding } from '../assets';
-import { Grid, Stack, Typography, Button } from '@mui/material';
+import { Grid, Stack, Typography, Button, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import UserService from '../services/user.service';
 
 const CartContent = ({cart}) => {
 
-  function handleCheckout(){
-    
+  const [value, setValue] = useState('cash')
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  async function handleCheckout(){
+    try{
+      const response = await UserService.checkout()
+      console.log('Checkout Successful')
+      localStorage.removeItem('cart')
+    }catch(error){
+      throw error;
+    }
   }
 
-  if (typeof cartItems === "string"){
+  if (typeof cart === "string"){
     return (
-      <Stack width='100%' p={10} bgcolor='rgb(18,18,18)' alignItems='center'>
-        <Typography variant='h2'>
-          {cartItems}
+      <Stack width='100%' py={10} bgcolor='rgb(18,18,18)' alignItems='center'>
+        <Typography variant='h3' width={400}>
+          {cart}
         </Typography>
       </Stack>
       )
@@ -45,7 +58,22 @@ const CartContent = ({cart}) => {
               <Typography fontWeight='bold' variant='h6' sx={{ mr: 'auto' }}>Discount:</Typography>
               <Typography fontWeight='bold' variant='h6' sx={{ ml: 'auto' }}>Rs. 10</Typography>
           </Stack>
-          <Button width='100%' sx={{bgcolor:'warning.main', '&:hover': {bgcolor: 'warning.dark'}}} variant='filled'>Proceed to checkout</Button>
+          <Button width='100%' sx={{bgcolor:'warning.main', '&:hover': {bgcolor: 'warning.dark'}}} variant='filled' onClick={handleCheckout}>Proceed to checkout</Button>
+
+          <FormControl>
+            <FormLabel sx={{color:'white'}} id="demo-radio-buttons-group-label">Payment</FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="cash"
+                name="radio-buttons-group"
+                row
+                value={value}
+                onChange={handleChange}
+              >
+                <FormControlLabel value="cash" control={<Radio sx={{color:'white'}} />} label="Cash on Delivery" />
+                <FormControlLabel value="card" control={<Radio sx={{color:'white'}}/>} label="Card Payment" />
+              </RadioGroup>
+          </FormControl>
         </Stack>
       </Stack>
       </>

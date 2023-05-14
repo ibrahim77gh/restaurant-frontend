@@ -32,7 +32,7 @@ function CartItem(item){
 
   async function deleteCartItem(){
     try{
-      const response = UserService.deleteCartItem(id)
+      const response = await UserService.deleteCartItem(id)
       console.log(response)
       refreshRoute()
     }catch(error){
