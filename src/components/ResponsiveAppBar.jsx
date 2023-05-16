@@ -6,13 +6,28 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import constants from '../constants';
 
-import {NavLink, Outlet} from 'react-router-dom';
+import {NavLink, Outlet, useNavigate, useLocation} from 'react-router-dom';
+import AuthService from '../services/auth.service';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+    const user = localStorage.getItem('access_token')
     const [color, setColor] = useState('rgba(0,0,0,0.1)');
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    function refreshRoute() {
+        navigate(`${location.pathname}?key=${Math.random()}`);
+    }
+
+    useEffect(() => {
+        if (location.search.includes('key')) {
+        const newUrl = location.pathname + location.search.replace(/\?.*$/, '');
+        navigate(newUrl, { replace: true });
+        }
+    }, [location.search, navigate, location.pathname]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -46,6 +61,13 @@ const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+
+    function logout(){
+        AuthService.logout()
+        handleCloseNavMenu()
+        refreshRoute()
+    }
 
     return (
         <>
@@ -100,13 +122,13 @@ const ResponsiveAppBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                             >
-                                <Stack direction='column-reverse'>
-                                    <NavLink><MenuItem onClick={handleCloseNavMenu}>Contact</MenuItem></NavLink>
-                                    <NavLink><MenuItem onClick={handleCloseNavMenu}>About</MenuItem></NavLink>
-                                    <NavLink to='services'><MenuItem onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
-                                    <NavLink to='menu'><MenuItem onClick={handleCloseNavMenu}>Menu</MenuItem></NavLink>
-                                    <NavLink to='/'><MenuItem onClick={handleCloseNavMenu}>Home</MenuItem></NavLink>
-                                    <NavLink to='/signup'><MenuItem onClick={handleCloseNavMenu}>Sign Up</MenuItem></NavLink>
+                                <Stack bgcolor='black' direction='column-reverse'>
+                                    {user ?
+                                    (<NavLink to='/'><MenuItem sx={{color:'warning.main'}} onClick={logout}>Log out</MenuItem></NavLink>) : 
+                                    (<NavLink to='/login'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Log in</MenuItem></NavLink>)}
+                                    <NavLink to='services'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
+                                    <NavLink to='menu'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Menu</MenuItem></NavLink>
+                                    <NavLink to='/'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Home</MenuItem></NavLink>
                                 </Stack>
                             </Menu>
                         </Box>
@@ -130,13 +152,13 @@ const ResponsiveAppBar = () => {
                             Restaurant
                         </Typography>
                         <Stack direction='row-reverse' spacing={2} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            <NavLink>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Contact</Button>
-                            </NavLink>
-
-                            <NavLink>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>About Us</Button>
-                            </NavLink>
+                            {user ? 
+                            (<NavLink to='/'>
+                                <Button size='large' onClick={logout} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Log out</Button>
+                            </NavLink>) : 
+                            (<NavLink to='login'>
+                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Log in</Button>
+                            </NavLink>)}
 
                             <NavLink to='services'>
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Services</Button>
@@ -150,9 +172,6 @@ const ResponsiveAppBar = () => {
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Home</Button>
                             </NavLink>
                             
-                            <NavLink to='/signup'>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Sign Up</Button>
-                            </NavLink>
                         </Stack>
 
                         <Box sx={{ flexGrow: 0 }}>

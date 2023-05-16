@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
-import { Typography, Box, Card, CardActions, CardContent, CardMedia, Button } from '@mui/material'
-import constants from '../constants'
+import React, {useEffect, useState} from 'react'
+import { Typography, Box, Card, CardActions, CardContent, CardMedia, Button, Snackbar, Alert } from '@mui/material'
+// import constants from '../constants'
+import UserService from '../services/user.service';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -31,10 +32,35 @@ function a11yProps(index) {
   }
   
 function FoodItem(item){
+  const [id, setId] = useState(null)
+  const [open, setOpen] = useState(false)
+  
+  useEffect(() => {
+    setId(item.id)
+  }, [item])
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  async function handleClick(){
+    try{
+      const response = await UserService.addToCart(id)
+      setOpen(true);
+      console.log(response.data)
+    }catch(e){
+        throw e
+    }
+  }
+
     return (
-        <Card sx={{ maxWidth: 400, bgcolor: 'inherit' }} variant='outlined'>
+        <Card sx={{ bgcolor: 'warning.main', width:'300px', height:'450px', position:'relative'}} variant='outlined'>
           <CardMedia
-            sx={{ height: 300}}
+            sx={{ height: 200}}
             image={item.image}
             title={item.title}
           />
@@ -43,15 +69,25 @@ function FoodItem(item){
               {item.title}
             </Typography>
             <Typography variant="body2" gutterBottom>
-              {constants.productText}
+              {item.description}
             </Typography>
             <Typography variant='h5' >
-                $2.90
+                Rs.{item.unit_price}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="large" sx={{color:'warning.main'}}>Add to Cart</Button>
+          <CardActions sx={{ position: 'absolute', bottom: 5 }} onClick={() => handleClick()}>
+            <Button size="large" variant='contained' sx={{ color: 'warning.main', backgroundColor:'black', '&:hover': {bgcolor: 'black'} }}>Add to Cart</Button>
           </CardActions>
+          <Snackbar 
+            open={open} 
+            autoHideDuration={1000} 
+            onClose={handleClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+          >
+              <Alert onClose={handleClose} variant='filled' severity="warning" sx={{ width: '100%' }}>
+                  Item added to cart
+              </Alert>
+          </Snackbar>
         </Card>
       );
 }

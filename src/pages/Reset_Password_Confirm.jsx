@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Snackbar, Alert, Container, Typography} from '@mui/material'
-import { Form, redirect, useActionData, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { Form, redirect, useActionData, NavLink, useLocation } from 'react-router-dom';
 import AuthService from "../services/auth.service";
 
 function Copyright(props) {
@@ -23,32 +23,19 @@ function Copyright(props) {
   );
 }
 
-
 export default function Login(){
     const data = useActionData()
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    function refreshRoute() {
-        navigate(`${location.pathname}?key=${Math.random()}`);
-    }
-
-    useEffect(() => {
-        if (location.search.includes('key')) {
-        const newUrl = location.pathname + location.search.replace(/\?.*$/, '');
-        navigate(newUrl, { replace: true });
-        }
-    }, [location.search, navigate, location.pathname]);
 
     // Toast
-    // const location = useLocation();
-    // const [open, setOpen] = useState(false)
-    // const successMessage = location.state?.successMessage;
-    // useEffect(() => {
-    //     if (successMessage) {
-    //         setOpen(true)
-    //     }
-    // }, [successMessage]);
+    const location = useLocation();
+    const successMessage = location.state?.successMessage;
+    const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        if (successMessage) {
+            setOpen(true)
+        }
+    }, [successMessage]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -74,32 +61,31 @@ export default function Login(){
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Log in
+                Reset Password
             </Typography>
             <Form method='post'>
                 <Box sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                      <Grid item xs={12}>
+                          <TextField
+                          required
+                          fullWidth
+                          id="new_password"
+                          label="New Password"
+                          name="new_password"
+                          autoComplete="new-password"
+                          />
+                      </Grid>
+                      <Grid item xs={12}>
                         <TextField
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
+                        id="re_new_password"
+                        label="Confirm New Password"
+                        name="re_new_password"
                         autoComplete="new-password"
                         />
-                    </Grid>
+                      </Grid>
                     </Grid>
                     <Button
                     type="submit"
@@ -107,19 +93,14 @@ export default function Login(){
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     >
-                        Log in
+                        Reset Password
                     </Button>
-                    <Grid container justifyContent="center" alignItems='center' spacing={2}>
-                    <Grid item xs={12}>
-                        <NavLink to='/signup'>
-                            Don`t have an account yet? Sign up
-                        </NavLink>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <NavLink to='/reset-password'>
-                            Forgot Password?
-                        </NavLink>
-                    </Grid>
+                    <Grid container justifyContent="flex-end">
+                      <Grid item>
+                          <NavLink to='/login'>
+                              Back to Login
+                          </NavLink>
+                      </Grid>
                     </Grid>
                     {data && data.error && <p>{data.error}</p>}
                 </Box>
@@ -127,29 +108,26 @@ export default function Login(){
             </Box>
             <Copyright sx={{ mt: 5 }} />
         </Container>
-
-        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert variant="filled" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                Account created succesfully!
-            </Alert>
-        </Snackbar> */}
     </Box>
 
     
     );
 }
 
-export const loginAction = async ({request}) => {
+export const resetPasswordConfirmAction = async ({request, params}) => {
     const data = await request.formData()
+    const {uid, token} = params
     const submission = {
-        email: data.get('email'),
-        password: data.get('password'),
+      new_password: data.get('new_password'),
+      re_new_password: data.get('re_new_password'),
+      uid: uid,
+      token: token,
     }
     // error handling
     try{
-        const response = await AuthService.login(submission)
+        const response = await AuthService.resetPasswordConfirm(submission)
         console.log(response.data)
-        return redirect('/');
+        return redirect('/login');
     }catch(e){
         throw e
     }

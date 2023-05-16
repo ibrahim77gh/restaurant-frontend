@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Typography, Tabs, Tab, Grid} from '@mui/material';
 import constants from '../constants';
@@ -13,7 +13,7 @@ TabPanel.propTypes = {
 
 const Products = ({products}) => {
     const [value, setValue] = useState(0);
-
+  
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -37,7 +37,7 @@ const Products = ({products}) => {
             </Stack>
             <TabPanel value={value} index={0} >
                 <Grid container justifyContent="space-evenly" alignItems="center" spacing={2} pt={5} pb={12} bgcolor='rgb(18,18,18)' rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    {products.collection1 && products.collection1.map(product => (
+                    {products && products.collection1.map(product => (
                         <Grid item xs={12} sm={6} md={4} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <FoodItem id={product.id} title={product.title} image={product.image} description={product.description} unit_price={product.unit_price}/>
                         </Grid>
@@ -46,7 +46,7 @@ const Products = ({products}) => {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Grid container justifyContent="space-evenly" alignItems="center" spacing={2} pt={5} pb={12} bgcolor='rgb(18,18,18)' rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    {products.collection2 && products.collection2.map(product => (
+                    {products && products.collection2.map(product => (
                         <Grid item xs={12} sm={6} md={4} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <FoodItem id={product.id} title={product.title} image={product.image} description={product.description} unit_price={product.unit_price}/>
                         </Grid>
@@ -55,7 +55,7 @@ const Products = ({products}) => {
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Grid container justifyContent="space-evenly" alignItems="center" spacing={2} pt={5} pb={12} bgcolor='rgb(18,18,18)' rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    {products.collection3 && products.collection3.map(product => (
+                    {products && products.collection3.map(product => (
                         <Grid item xs={12} sm={6} md={4} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <FoodItem id={product.id} title={product.title} image={product.image} description={product.description} unit_price={product.unit_price}/>
                         </Grid>
