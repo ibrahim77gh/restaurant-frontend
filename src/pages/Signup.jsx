@@ -24,22 +24,6 @@ function Copyright(props) {
 
 export default function Signup(){
     const data = useActionData()
-    const navigate = useNavigate()
-
-    async function continueWithGoogle(){
-        try{
-            const response = await AuthService.continueWithGoogle()
-            const urlParams = new URLSearchParams(response.data.authorization_url);
-            const state = urlParams.get("state");
-            const code = urlParams.get("code");
-            if (state){
-                const response_two = await AuthService.googleAuthenticate({state:state, code:code})
-            }
-            
-        }catch(error){
-            throw error
-        }
-    }
     
   return (
     <Box width='100vw' height='100vh' alignItems='center' justifyContent='center' my={10} bgcolor='rgba(18,18,18,0)'>
@@ -136,15 +120,6 @@ export default function Signup(){
                     sx={{ mt: 3, mb: 2, bgcolor:'warning.dark' }}
                     >
                         Sign Up
-                    </Button>
-                    <Typography fullWidth variant='h6' textAlign='center'>OR</Typography>
-                    <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, bgcolor:'red' }}
-                    onClick={continueWithGoogle}
-                    >
-                        Continue with Google
                     </Button>
                     <Grid container justifyContent="flex-end">
                     <Grid item>

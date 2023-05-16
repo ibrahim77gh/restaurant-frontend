@@ -72,7 +72,7 @@ function FoodItem(item){
               {item.description}
             </Typography>
             <Typography variant='h5' >
-                {item.unit_price}
+                Rs.{item.unit_price}
             </Typography>
           </CardContent>
           <CardActions sx={{ position: 'absolute', bottom: 5 }} onClick={() => handleClick()}>

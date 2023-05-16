@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Typography, Tabs, Tab, Grid} from '@mui/material';
-import { burger, tikka, rice, juices, soda, shakes, cinnamon, cake, pudding } from '../assets';
 import constants from '../constants';
 import {TabPanel, a11yProps, FoodItem} from './Functions_Products';
 

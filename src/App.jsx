@@ -3,18 +3,23 @@ import React from 'react'
 import {Home, Menu, Services, Cart_Page, cartLoader, SignUp, Login, Error, Activate_Email, Reset_Password, Reset_Password_Confirm, Success, Resend_Email} from './pages/'
 import { Route, NavLink, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import { ResponsiveAppBar } from './components'
-import { signupAction } from './pages/Signup'
-import { loginAction } from './pages/Login'
+
+// Loaders
 import { MenuLoader } from './pages/Menu'
+
+// Actions
 import { resetPasswordAction } from './pages/Reset_Password'
 import { resetPasswordConfirmAction } from './pages/Reset_Password_Confirm'
+import { signupAction } from './pages/Signup'
+import { loginAction } from './pages/Login'
+
 import Unauthorized from './components/Unauthorized'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     // Tree of Routes
     <Route path='/' errorElement={<Error/>} element={<ResponsiveAppBar/>}>
-      <Route index element={<Home/>} errorElement={<Error/>}/>
+      <Route index element={<Home/>} loader={MenuLoader} errorElement={<Error/>}/>
       <Route path='menu' loader={MenuLoader} element={<Menu/>}></Route>
       <Route path='services' element={<Services/>}></Route>
       <Route path='cart' element={<Cart_Page/>} loader={cartLoader}></Route>

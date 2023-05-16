@@ -53,7 +53,7 @@ function CartItem(item){
                 {item.title}
               </Typography>
               <Typography variant='h5' >
-                {item.unit_price}
+                Rs.{item.unit_price}
               </Typography>
             </Stack>
             <Stack direction='row' justifyContent='space-between' spacing={6}>
@@ -87,7 +87,7 @@ function CartItem(item){
                 sx={{width:'8rem'}}
               />
               <Typography variant='h6' >
-                  Total: <br /> {item.total_price}
+                  Total: <br /> Rs.{item.total_price}
               </Typography>
             </Stack>
           </CardContent>

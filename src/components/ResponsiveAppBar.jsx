@@ -122,17 +122,13 @@ const ResponsiveAppBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                             >
-                                <Stack direction='column-reverse'>
+                                <Stack bgcolor='black' direction='column-reverse'>
                                     {user ?
-                                    (<NavLink to='/'><MenuItem onClick={logout}>Log out</MenuItem></NavLink>) : 
-                                    (<NavLink to='/login'><MenuItem onClick={handleCloseNavMenu}>Log in</MenuItem></NavLink>)}
-
-                                    <NavLink><MenuItem onClick={handleCloseNavMenu}>Contact</MenuItem></NavLink>
-                                    <NavLink><MenuItem onClick={handleCloseNavMenu}>About</MenuItem></NavLink>
-                                    <NavLink to='services'><MenuItem onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
-                                    <NavLink to='menu'><MenuItem onClick={handleCloseNavMenu}>Menu</MenuItem></NavLink>
-                                    <NavLink to='/'><MenuItem onClick={handleCloseNavMenu}>Home</MenuItem></NavLink>
-                                    <NavLink to='/signup'><MenuItem onClick={handleCloseNavMenu}>Sign Up</MenuItem></NavLink>
+                                    (<NavLink to='/'><MenuItem sx={{color:'warning.main'}} onClick={logout}>Log out</MenuItem></NavLink>) : 
+                                    (<NavLink to='/login'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Log in</MenuItem></NavLink>)}
+                                    <NavLink to='services'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Services</MenuItem></NavLink>
+                                    <NavLink to='menu'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Menu</MenuItem></NavLink>
+                                    <NavLink to='/'><MenuItem sx={{color:'warning.main'}} onClick={handleCloseNavMenu}>Home</MenuItem></NavLink>
                                 </Stack>
                             </Menu>
                         </Box>
@@ -163,14 +159,6 @@ const ResponsiveAppBar = () => {
                             (<NavLink to='login'>
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Log in</Button>
                             </NavLink>)}
-
-                            <NavLink>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Contact</Button>
-                            </NavLink>
-
-                            <NavLink>
-                                <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>About Us</Button>
-                            </NavLink>
 
                             <NavLink to='services'>
                                 <Button size='large' onClick={handleCloseNavMenu} sx={{ my: 2, color:'white', '&:hover': { color: 'warning.main' }, display: 'block' }}>Services</Button>

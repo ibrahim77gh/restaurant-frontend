@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import CartItem from './CartItem'
-import { burger, tikka, rice, juices, soda, shakes, cinnamon, cake, pudding } from '../assets';
 import { Grid, Stack, Typography, Button, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import UserService from '../services/user.service';
 import { useNavigate } from 'react-router-dom';
