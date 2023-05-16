@@ -1,14 +1,14 @@
 import { Stack, Box } from '@mui/material'
 import React from 'react'
-import {Home, Menu, Services, Cart_Page, cartLoader, SignUp, Login, Error, Payment, Activate_Email, Reset_Password, Reset_Password_Confirm} from './pages/'
+import {Home, Menu, Services, Cart_Page, cartLoader, SignUp, Login, Error, Activate_Email, Reset_Password, Reset_Password_Confirm, Success, Resend_Email} from './pages/'
 import { Route, NavLink, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import { ResponsiveAppBar } from './components'
 import { signupAction } from './pages/Signup'
 import { loginAction } from './pages/Login'
 import { MenuLoader } from './pages/Menu'
-import { paymentAction } from './pages/Payment'
 import { resetPasswordAction } from './pages/Reset_Password'
 import { resetPasswordConfirmAction } from './pages/Reset_Password_Confirm'
+import Unauthorized from './components/Unauthorized'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,9 +20,10 @@ const router = createBrowserRouter(
       <Route path='cart' element={<Cart_Page/>} loader={cartLoader}></Route>
       <Route path='signup' element={<SignUp/>} action={signupAction}></Route>
       <Route path='login' element={<Login/>} action={loginAction}></Route> 
-      <Route path='payment' element={<Payment/>} action={paymentAction}></Route> 
+      <Route path='success' element={<Success/>}></Route> 
       <Route path='activate/:uid/:token' element={<Activate_Email/>}></Route> 
-      <Route path='reset-password' element={<Reset_Password/>} action={resetPasswordAction}></Route> 
+      <Route path='reset-password' element={<Reset_Password/>} action={resetPasswordAction}></Route>
+      <Route path='resend-email' element={<Resend_Email/>}></Route> 
       <Route path='password/reset/confirm/:uid/:token' element={<Reset_Password_Confirm/>} action={resetPasswordConfirmAction}></Route> 
     </Route>
   ), {

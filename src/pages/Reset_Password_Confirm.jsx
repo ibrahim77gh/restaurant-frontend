@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Snackbar, Alert, Container, Typography} from '@mui/material'
-import { Form, redirect, useActionData, NavLink, useLocation, useParams } from 'react-router-dom';
+import { Form, redirect, useActionData, NavLink, useLocation } from 'react-router-dom';
 import AuthService from "../services/auth.service";
 
 function Copyright(props) {
@@ -25,7 +25,6 @@ function Copyright(props) {
 
 export default function Login(){
     const data = useActionData()
-    const {uid, token} = useParams()
 
     // Toast
     const location = useLocation();
@@ -87,8 +86,6 @@ export default function Login(){
                         autoComplete="new-password"
                         />
                       </Grid>
-                      <input type="text" value={uid} hidden id='uid' name='uid'/>
-                      <input type="text" value={token} hidden id='token' name='token'/>
                     </Grid>
                     <Button
                     type="submit"
@@ -117,13 +114,14 @@ export default function Login(){
     );
 }
 
-export const resetPasswordConfirmAction = async ({request}) => {
+export const resetPasswordConfirmAction = async ({request, params}) => {
     const data = await request.formData()
+    const {uid, token} = params
     const submission = {
       new_password: data.get('new_password'),
       re_new_password: data.get('re_new_password'),
-      uid: data.get('uid'),
-      token: data.get('token'),
+      uid: uid,
+      token: token,
     }
     // error handling
     try{

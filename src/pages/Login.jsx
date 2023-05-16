@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Snackbar, Alert, Container, Typography} from '@mui/material'
-import { Form, redirect, useActionData, NavLink, useLocation } from 'react-router-dom';
+import { Form, redirect, useActionData, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import AuthService from "../services/auth.service";
 
 function Copyright(props) {
@@ -26,6 +26,19 @@ function Copyright(props) {
 
 export default function Login(){
     const data = useActionData()
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    function refreshRoute() {
+        navigate(`${location.pathname}?key=${Math.random()}`);
+    }
+
+    useEffect(() => {
+        if (location.search.includes('key')) {
+        const newUrl = location.pathname + location.search.replace(/\?.*$/, '');
+        navigate(newUrl, { replace: true });
+        }
+    }, [location.search, navigate, location.pathname]);
 
     // Toast
     // const location = useLocation();

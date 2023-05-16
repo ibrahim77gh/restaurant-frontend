@@ -9,6 +9,8 @@ import Payment from "./Payment";
 import Activate_Email from "./Activate_Email";
 import Reset_Password from "./Reset_Password";
 import Reset_Password_Confirm from "./Reset_Password_Confirm";
+import Success from "./Success";
+import Resend_Email from "./Resend_Email";
 
 export {
     Home,
@@ -23,4 +25,6 @@ export {
     Activate_Email,
     Reset_Password,
     Reset_Password_Confirm,
+    Success,
+    Resend_Email,
 }

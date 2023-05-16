@@ -3,29 +3,43 @@ import CartItem from './CartItem'
 import { burger, tikka, rice, juices, soda, shakes, cinnamon, cake, pudding } from '../assets';
 import { Grid, Stack, Typography, Button, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import UserService from '../services/user.service';
+import { useNavigate } from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const CartContent = ({cart}) => {
 
   const [value, setValue] = useState('cash')
+  const user = localStorage.getItem("access_token")
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   async function handleCheckout(){
-    try{
-      const response = await UserService.checkout()
-      console.log('Checkout Successful')
-      localStorage.removeItem('cart')
-    }catch(error){
-      throw error;
+    if (user){
+      try{
+        setIsLoading(true)
+        const response = await UserService.checkout()
+        setIsLoading(false)
+        console.log('Checkout Successful')
+        console.log(response.data)
+        window.location.href = response.data;
+      }catch(error){
+        throw error;
+      }
+    }else{
+      navigate('/login')
     }
+    
   }
 
   if (typeof cart === "string"){
     return (
-      <Stack width='100%' py={10} bgcolor='rgb(18,18,18)' alignItems='center'>
-        <Typography variant='h3' width={400}>
+      <Stack width='100%' py={10} spacing={10} bgcolor='rgb(18,18,18)' alignItems='center'>
+        <ShoppingCartIcon sx={{transform:`scale(5)`}}/>
+        <Typography variant='h4' textAlign='center' width={400}>
           {cart}
         </Typography>
       </Stack>
@@ -58,22 +72,8 @@ const CartContent = ({cart}) => {
               <Typography fontWeight='bold' variant='h6' sx={{ mr: 'auto' }}>Discount:</Typography>
               <Typography fontWeight='bold' variant='h6' sx={{ ml: 'auto' }}>Rs. 10</Typography>
           </Stack>
-          <Button width='100%' sx={{bgcolor:'warning.main', '&:hover': {bgcolor: 'warning.dark'}}} variant='filled' onClick={handleCheckout}>Proceed to checkout</Button>
+          <Button width='100%' sx={{bgcolor:'warning.main', '&:hover': {bgcolor: 'warning.dark'}}} variant='filled' disabled={isLoading} onClick={handleCheckout}>{isLoading ? 'Processing...' : 'Proceed to Checkout'}</Button>
 
-          <FormControl>
-            <FormLabel sx={{color:'white'}} id="demo-radio-buttons-group-label">Payment</FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="cash"
-                name="radio-buttons-group"
-                row
-                value={value}
-                onChange={handleChange}
-              >
-                <FormControlLabel value="cash" control={<Radio sx={{color:'white'}} />} label="Cash on Delivery" />
-                <FormControlLabel value="card" control={<Radio sx={{color:'white'}}/>} label="Card Payment" />
-              </RadioGroup>
-          </FormControl>
         </Stack>
       </Stack>
       </>

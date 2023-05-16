@@ -55,7 +55,14 @@ class AuthService {
   }
 
   register(credentials) {
-    return axios.post(API_URL + "users/", credentials);
+    return axios.post(API_URL + "users/", credentials)
+    .then(response => {
+      if (response.status === 201) {
+        localStorage.setItem('email', credentials.email);
+      }
+
+      return response.data
+    });;
   }
 
   getCurrentUser() {
@@ -63,7 +70,11 @@ class AuthService {
   }
 
   activationEmail(credentials){
-    return axios.post(API_URL + "users/activation/", credentials);
+    return axios.post(API_URL + "users/activation/", credentials)
+  }
+
+  resendEmail(){
+    return axios.post(API_URL + "users/resend_activation/", {email: localStorage.getItem('email')});
   }
 
   resendActivationEmail(credentials){

@@ -6,7 +6,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import constants from '../constants';
 
-import {NavLink, Outlet} from 'react-router-dom';
+import {NavLink, Outlet, useNavigate, useLocation} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -15,6 +15,19 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const ResponsiveAppBar = () => {
     const user = localStorage.getItem('access_token')
     const [color, setColor] = useState('rgba(0,0,0,0.1)');
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    function refreshRoute() {
+        navigate(`${location.pathname}?key=${Math.random()}`);
+    }
+
+    useEffect(() => {
+        if (location.search.includes('key')) {
+        const newUrl = location.pathname + location.search.replace(/\?.*$/, '');
+        navigate(newUrl, { replace: true });
+        }
+    }, [location.search, navigate, location.pathname]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -49,9 +62,11 @@ const ResponsiveAppBar = () => {
         setAnchorElUser(null);
     };
 
+
     function logout(){
         AuthService.logout()
         handleCloseNavMenu()
+        refreshRoute()
     }
 
     return (

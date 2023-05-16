@@ -8,6 +8,7 @@ const Error = () => {
 
   return (
     <Stack alignItems='center' spacing={5} width='100vw'>
+        <Stack height={100}></Stack>
         <Typography variant='h1'>Error</Typography>
         <Typography>{error.message || error.statusText}</Typography>
         <Stack direction='row' spacing={3}>

@@ -178,7 +178,7 @@ export const signupAction = async ({request}) => {
     try{
         const response = await AuthService.register(submission)
         console.log(response.data)
-        return redirect('/login');
+        return redirect('/resend-email');
     }catch(e){
         throw e
     }
