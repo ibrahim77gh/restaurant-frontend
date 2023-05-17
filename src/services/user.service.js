@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import jwt_decode from "jwt-decode";
 import AuthService from './auth.service';
 
-const API_URL = 'http://127.0.0.1:8000/store/';
+const API_URL = 'http://ibrahimdevs.pythonanywhere.com/store/';
 
 class UserService {
   getProducts() {
