@@ -3,7 +3,7 @@ import axios from "axios";
 import dayjs from 'dayjs';
 import jwt_decode from "jwt-decode";
 
-const API_URL = "http://ibrahimdevs.pythonanywhere.com/auth/";
+const API_URL = "https://ibrahimdevs.pythonanywhere.com/auth/";
 
 class AuthService {
   login(credentials) {
