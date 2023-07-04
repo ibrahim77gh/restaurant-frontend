@@ -31,9 +31,7 @@ const router = createBrowserRouter(
       <Route path='resend-email' element={<Resend_Email/>}></Route> 
       <Route path='password/reset/confirm/:uid/:token' element={<Reset_Password_Confirm/>} action={resetPasswordConfirmAction}></Route> 
     </Route>
-  ), {
-    basename: "/restaurant-frontend"
-  }
+  )
 )
 
 const App = () => {
