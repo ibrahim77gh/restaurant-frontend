@@ -48,8 +48,8 @@ const Hero = () => {
     <Stack justifyContent='center' alignItems='center' height='100%' spacing={3}>
       <ThemeProvider theme={theme}>
         <Typography variant='h4' color='warning.main' >Welcome</Typography>
-        <Typography variant='h2' alignContent='center'>AMAZING TASTE</Typography>
-        <Typography variant='h2' alignContent='center'>BEAUTIFUL PLACE</Typography>
+        <Typography variant='h2' color='white' alignContent='center'>AMAZING TASTE</Typography>
+        <Typography variant='h2' color='white' alignContent='center'>BEAUTIFUL PLACE</Typography>
       </ThemeProvider>
       <Stack direction='row' spacing={2}>
         <Button variant='contained' size='large' color='warning'> Book Table</Button>
