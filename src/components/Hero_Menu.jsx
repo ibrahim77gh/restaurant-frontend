@@ -48,7 +48,7 @@ const Hero_Menu = (text) => {
         <Stack justifyContent='center' alignItems='center' height='100%' spacing={3}>
           <ThemeProvider theme={theme}>
             <Typography variant='h4' color='warning.main' >Welcome</Typography>
-            <Typography variant='h2' alignContent='center'>{text.t}</Typography>
+            <Typography variant='h2' color='white' alignContent='center'>{text.t}</Typography>
           </ThemeProvider>
         <Stack direction='row' spacing={2}>
             <Button size='large' color='warning'> {text.b} </Button>
